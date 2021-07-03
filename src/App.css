@@ -9,7 +9,7 @@
 
 @media (prefers-reduced-motion: no-preference) {
   .App-logo {
-    animation: App-logo-spin infinite 20s linear;
+    animation: App-logo-spin infinite 3s ease-in-out;
   }
 }
 
@@ -36,3 +36,14 @@
     transform: rotate(360deg);
   }
 }
+
+h1 {
+  font-family: 'Bigelow Rules';
+  font-size: 72px;
+  color: #0ccac4;
+}
+
+body {
+  padding: 30px 0;
+}
+
