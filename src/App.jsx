@@ -1,69 +1,42 @@
 import "./App.css";
-import { Component } from "react";
 import { CardList } from "./components/card-list/card-list.component";
 import SearchBox from "./components/search-box/search-box.component";
-import React from "react";
+import { useEffect, useState } from "react";
 
-class App extends Component {
-  constructor() {
-    super({});
-    this.state = {
-      searchField: "",
-      monsters: [
-        {
-          name: "m1",
-          id: "m1",
-        },
-        {
-          name: "m2",
-          id: "m2",
-        },
-      ],
-    };
-  }
+const App = (props) => {
+  const [searchField, setSearchField] = useState("");
+  const [monsters, setMonsters] = useState([]);
 
-  componentDidMount() {
+  useEffect(() => {
     fetch("https://jsonplaceholder.typicode.com/users")
       .then((response) => response.json())
-      .then((users) => this.setState({ monsters: users }));
-  }
+      .then((users) => setMonsters(users));
+      console.log("fetch")
+    }, []);
+    
+  
 
-  render() {
-    const { searchField, monsters } = this.state;
-    let filteredMonsters = monsters.filter((monster) =>
-      monster.name.toLocaleLowerCase().includes(searchField.toLocaleLowerCase())
-    );
+  const onSearchChange = (event) => {
+    const searchFieldString = event.target.value.toLocaleLowerCase();
+    setSearchField(searchFieldString);
+  };
 
-    return (
-      <div className="App">
-        <h1>Monsters Rolodex</h1>
-        <SearchBox
-          placeholder="Search monsters..."
-          className="search"
-          onChangeHandler={(e) =>
-            this.setState({ searchField: e.target.value })
-          }
-        />
-        <CardList monsters={filteredMonsters} />
-      </div>
-    );
-  }
-}
+  // const { searchField, monsters } = this.state;
+  const filteredMonsters = monsters.filter((monster) =>
+    monster.name.toLocaleLowerCase().includes(searchField)
+  );
 
-/*
-
-function App() {
   return (
     <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p> {state}</p>
-        <button onClick={() => this.setState({string: "Hello"});} </button>
-       
-      </header>
+      <h1>Monsters Rolodex</h1>
+      <SearchBox
+        placeholder="Search monsters..."
+        className="search monsters-search-box"
+        onChangeHandler={onSearchChange}
+      />
+      <CardList monsters={filteredMonsters} />
     </div>
   );
-}
-*/
+};
 
 export default App;
